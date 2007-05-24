@@ -2,7 +2,7 @@
 %define	major	1
 %define	libname	 %mklibname %name %major
 %define version 1.2
-%define beta beta1
+%define beta beta2
 %define release %mkrel 0.%beta.1
 
 Summary:	An open-source, patent-free speech codec
