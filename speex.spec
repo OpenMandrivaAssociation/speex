@@ -14,6 +14,7 @@ Group:		Sound
 Source0:	http://downloads.us.xiph.org/releases/speex/%{name}-%{version}%beta.tar.bz2
 Patch1:		speex-1.1.6-fix-pkgconfig-path.patch
 URL:		http://www.speex.org/
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	oggvorbis-devel
 BuildRequires:	chrpath
 #gw if patched
