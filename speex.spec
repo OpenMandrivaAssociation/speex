@@ -1,9 +1,11 @@
 %define	name	speex
+%define version 1.2
+%define beta beta3
+%define release %mkrel 0.%beta.1
 %define	major	1
 %define	libname	 %mklibname %name %major
-%define version 1.2
-%define beta beta2
-%define release %mkrel 0.%beta.1
+%define develname %mklibname -d %name
+%define staticname %mklibname -s -d %name
 
 Summary:	An open-source, patent-free speech codec
 Name:		%{name}
@@ -11,7 +13,7 @@ Version:	%{version}
 Release:	%{release}
 License:	BSD
 Group:		Sound
-Source0:	http://downloads.us.xiph.org/releases/speex/%{name}-%{version}%beta.tar.bz2
+Source0:	http://downloads.us.xiph.org/releases/speex/%{name}-%{version}%beta.tar.gz
 Patch1:		speex-1.1.6-fix-pkgconfig-path.patch
 URL:		http://www.speex.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -39,24 +41,26 @@ codec.
 This package contains the shared library required for running
 applications based on Speex.
 
-%package -n	%{libname}-devel
+%package -n	%develname
 Summary:	Speex development files
 Group:		Development/C
 Requires:	%{libname} = %{version}
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
+Obsoletes: %mklibname -d %name 1
 
-%description -n	%{libname}-devel
+%description -n	%develname
 Speex development files.
 
-%package -n	%{libname}-static-devel
+%package -n	%staticname
 Summary:	Speex static library 
 Group:		Development/C
-Requires:	%{libname}-devel = %{version}
+Requires:	%develname = %{version}
 Provides:	%{name}-static-devel = %{version}-%{release}
 Provides:	lib%{name}-static-devel = %{version}-%{release}
+Obsoletes: %mklibname -s -d %name 1
 
-%description -n %{libname}-static-devel
+%description -n %staticname
 Speex static library for developing applications based on Speex.
 
 %prep
@@ -92,18 +96,21 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/speex*
 
 %files -n %{libname}
-%attr(755,root,root) %{_libdir}/libspeex.so.%{major}*
+%defattr(755,root,root)
+%{_libdir}/libspeex.so.%{major}*
+%{_libdir}/libspeexdsp.so.%{major}*
 
-%files -n %{libname}-devel
+%files -n %develname
 %defattr(644,root,root,755)
 %doc doc/manual.pdf
 %{_libdir}/libspeex*.la
 %{_libdir}/libspeex*.so
 %{_includedir}/speex
 %{_libdir}/pkgconfig/speex.pc
+%{_libdir}/pkgconfig/speexdsp.pc
 %{_datadir}/aclocal/speex.m4
 
-%files -n %{libname}-static-devel
+%files -n %staticname
 %defattr(644,root,root,755)
 %{_libdir}/libspeex*.a
 
