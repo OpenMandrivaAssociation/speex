@@ -1,7 +1,7 @@
 %define	name	speex
 %define version 1.2
 %define beta beta3
-%define release %mkrel 0.%beta.1
+%define release %mkrel 0.%beta.2
 %define	major	1
 %define	libname	 %mklibname %name %major
 %define develname %mklibname -d %name
@@ -15,6 +15,7 @@ License:	BSD
 Group:		Sound
 Source0:	http://downloads.us.xiph.org/releases/speex/%{name}-%{version}%beta.tar.gz
 Patch1:		speex-1.1.6-fix-pkgconfig-path.patch
+Patch2:		speex-1.2beta2-CVE-2008-1686.patch
 URL:		http://www.speex.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	oggvorbis-devel
@@ -66,6 +67,7 @@ Speex static library for developing applications based on Speex.
 %prep
 %setup -q -n %name-%version%beta
 %patch1 -p1 -b .pkgconfig
+%patch2 -p1 -b .cve-2008-1686
 autoconf
 
 %build
