@@ -1,7 +1,7 @@
 %define	name	speex
 %define version 1.2
-%define beta beta3
-%define release %mkrel 0.%beta.2
+%define beta rc1
+%define release %mkrel 0.%beta.1
 %define	major	1
 %define	libname	 %mklibname %name %major
 %define develname %mklibname -d %name
