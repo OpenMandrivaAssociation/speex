@@ -79,13 +79,13 @@ export CFLAGS='%optflags -DRELEASE'
 make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %{makeinstall_std}
 chrpath -d %buildroot%_bindir/*
-rm -f $RPM_BUILD_ROOT%{_datadir}/doc/*/manual.pdf
+rm -f %{buildroot}%{_datadir}/doc/*/manual.pdf
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
