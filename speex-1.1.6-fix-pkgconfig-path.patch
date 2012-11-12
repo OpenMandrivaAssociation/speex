@@ -1,0 +1,11 @@
+--- speex-1.1.6/speex.pc.in~	2005-01-19 10:22:32.928640949 +0100
++++ speex-1.1.6/speex.pc.in	2005-01-19 10:26:49.044726591 +0100
+@@ -3,7 +3,7 @@
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+ libdir=@libdir@
+-includedir=@includedir@
++includedir=@includedir@/speex
+ 
+ Name: speex
+ Description: Speex is an audio codec tuned for speech
