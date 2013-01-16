@@ -1,0 +1,11 @@
+--- speex-1.2rc1/configure.ac.bero	2013-01-16 02:34:54.745252919 +0100
++++ speex-1.2rc1/configure.ac	2013-01-16 02:34:58.746205056 +0100
+@@ -2,7 +2,7 @@ dnl Process this file with autoconf to p
+ 
+ AC_INIT(libspeex/speex.c)
+ 
+-AM_CONFIG_HEADER([config.h])
++AC_CONFIG_HEADERS([config.h])
+ 
+ SPEEX_MAJOR_VERSION=1
+ SPEEX_MINOR_VERSION=1

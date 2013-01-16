@@ -14,6 +14,7 @@ URL:		http://www.speex.org/
 Source0:	http://downloads.us.xiph.org/releases/speex/%{name}-%{version}%{beta}.tar.gz
 Patch1:		speex-1.1.6-fix-pkgconfig-path.patch
 Patch2:		speex-1.2rc1-CVE-2008-1686.patch
+Patch3:		speex-automake-1.13.patch
 
 BuildRequires:	pkgconfig(vorbis)
 BuildRequires:	chrpath
