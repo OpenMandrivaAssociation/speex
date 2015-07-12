@@ -1,4 +1,4 @@
-%define beta rc1
+%define beta rc2
 
 %define major 1
 %define libname %mklibname %{name} %{major}
@@ -7,15 +7,15 @@
 Summary:	An open-source, patent-free speech codec
 Name:		speex
 Version:	1.2
-Release:	0.%{beta}.8
+Release:	0.%{beta}.1
 License:	BSD
 Group:		Sound
 URL:		http://www.speex.org/
 Source0:	http://downloads.us.xiph.org/releases/speex/%{name}-%{version}%{beta}.tar.gz
 Patch1:		speex-1.1.6-fix-pkgconfig-path.patch
 Patch2:		speex-1.2rc1-CVE-2008-1686.patch
-Patch3:		speex-automake-1.13.patch
 
+BuildRequires:	pkgconfig(ogg)
 BuildRequires:	pkgconfig(vorbis)
 BuildRequires:	chrpath
 
@@ -52,8 +52,9 @@ autoreconf -fi
 export CFLAGS='%{optflags} -DRELEASE'
 %configure \
 	--disable-static \
+	--enable-binaries \
 	--with-ogg-libraries=%{_libdir}
-make
+%make
 
 %install
 %makeinstall_std
@@ -68,13 +69,11 @@ rm -f %{buildroot}%{_datadir}/doc/*/manual.pdf
 
 %files -n %{libname}
 %{_libdir}/libspeex.so.%{major}*
-%{_libdir}/libspeexdsp.so.%{major}*
 
 %files -n %{develname}
 %doc doc/manual.pdf
 %{_libdir}/libspeex*.so
 %{_includedir}/speex
 %{_libdir}/pkgconfig/speex.pc
-%{_libdir}/pkgconfig/speexdsp.pc
 %{_datadir}/aclocal/speex.m4
 
