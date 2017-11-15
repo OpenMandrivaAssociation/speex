@@ -1,17 +1,15 @@
-%define beta rc2
-
 %define major 1
 %define libname %mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
 
 Summary:	An open-source, patent-free speech codec
 Name:		speex
-Version:	1.2
-Release:	0.%{beta}.1
+Version:	1.2.0
+Release:	1
 License:	BSD
 Group:		Sound
 URL:		http://www.speex.org/
-Source0:	http://downloads.us.xiph.org/releases/speex/%{name}-%{version}%{beta}.tar.gz
+Source0:	http://downloads.us.xiph.org/releases/speex/%{name}-%{version}.tar.gz
 Patch1:		speex-1.1.6-fix-pkgconfig-path.patch
 Patch2:		speex-1.2rc1-CVE-2008-1686.patch
 
@@ -44,7 +42,7 @@ Obsoletes:	%{mklibname -s -d speex} < 1.2-0.rc1.7
 Speex development files.
 
 %prep
-%setup -qn %{name}-%{version}%{beta}
+%setup -q
 %apply_patches
 
 %build
