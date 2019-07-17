@@ -1,11 +1,12 @@
 %define major 1
 %define libname %mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
+%global optflags %{optflags} -O3
 
 Summary:	An open-source, patent-free speech codec
 Name:		speex
 Version:	1.2.0
-Release:	3
+Release:	4
 License:	BSD
 Group:		Sound
 URL:		http://www.speex.org/
@@ -23,15 +24,15 @@ Vorbis which targets general audio) signals and providing good narrowband
 and wideband quality. This project aims to be complementary to the Vorbis
 codec.
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	Shared library of the Speex codec
 Group:		System/Libraries
 
-%description -n	%{libname}
+%description -n %{libname}
 This package contains the shared library required for running
 applications based on Speex.
 
-%package -n	%{develname}
+%package -n %{develname}
 Summary:	Speex development files
 Group:		Development/C
 Requires:	%{libname} = %{version}
@@ -42,8 +43,7 @@ Obsoletes:	%{mklibname -s -d speex} < 1.2-0.rc1.7
 Speex development files.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 
 %build
 autoreconf -fi
@@ -52,10 +52,15 @@ export CFLAGS='%{optflags} -DRELEASE'
 	--disable-static \
 	--enable-binaries \
 	--with-ogg-libraries=%{_libdir}
-%make
+
+# Remove rpath from speexenc and speexdec
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 chrpath -d %{buildroot}%{_bindir}/*
 rm -f %{buildroot}%{_datadir}/doc/*/manual.pdf
 
