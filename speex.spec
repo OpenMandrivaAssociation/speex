@@ -1,12 +1,19 @@
+# Speex is used by pulseaudio, pulseaudio is used by wine
+%ifarch %{x86_64}
+%bcond_without compat32
+%endif
+
 %define major 1
 %define libname %mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
+%define lib32name %mklib32name %{name} %{major}
+%define devel32name %mklib32name -d %{name}
 %global optflags %{optflags} -O3
 
 Summary:	An open-source, patent-free speech codec
 Name:		speex
 Version:	1.2.0
-Release:	4
+Release:	5
 License:	BSD
 Group:		Sound
 URL:		http://www.speex.org/
@@ -16,6 +23,10 @@ Patch2:		speex-1.2rc1-CVE-2008-1686.patch
 
 BuildRequires:	pkgconfig(ogg)
 BuildRequires:	pkgconfig(vorbis)
+%if %{with compat32}
+BuildRequires:	devel(libogg)
+BuildRequires:	devel(libvorbis)
+%endif
 BuildRequires:	chrpath
 
 %description
@@ -42,12 +53,42 @@ Obsoletes:	%{mklibname -s -d speex} < 1.2-0.rc1.7
 %description -n	%{develname}
 Speex development files.
 
+%if %{with compat32}
+%package -n %{lib32name}
+Summary:	Shared library of the Speex codec (32-bit)
+Group:		System/Libraries
+
+%description -n %{lib32name}
+This package contains the shared library required for running
+applications based on Speex.
+
+%package -n %{devel32name}
+Summary:	Speex development files (32-bit)
+Group:		Development/C
+Requires:	%{lib32name} = %{version}
+Requires:	%{develname} = %{version}
+
+%description -n	%{devel32name}
+Speex development files.
+%endif
+
 %prep
 %autosetup -p1
-
-%build
 autoreconf -fi
 export CFLAGS='%{optflags} -DRELEASE'
+export CONFIGURE_TOP="$(pwd)"
+
+%if %{with compat32}
+mkdir build32
+cd build32
+%configure32 \
+	--disable-binaries \
+	--with-ogg-libraries=%{_prefix}/lib
+cd ..
+%endif
+
+mkdir build
+cd build
 %configure \
 	--disable-static \
 	--enable-binaries \
@@ -57,10 +98,17 @@ export CFLAGS='%{optflags} -DRELEASE'
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
-%make_build
+%build
+%if %{with compat32}
+%make_build -C build32
+%endif
+%make_build -C build
 
 %install
-%make_install
+%if %{with compat32}
+%make_install -C build32
+%endif
+%make_install -C build
 chrpath -d %{buildroot}%{_bindir}/*
 rm -f %{buildroot}%{_datadir}/doc/*/manual.pdf
 
@@ -80,3 +128,11 @@ rm -f %{buildroot}%{_datadir}/doc/*/manual.pdf
 %{_libdir}/pkgconfig/speex.pc
 %{_datadir}/aclocal/speex.m4
 
+%if %{with compat32}
+%files -n %{lib32name}
+%{_prefix}/lib/libspeex.so.%{major}*
+
+%files -n %{devel32name}
+%{_prefix}/lib/libspeex*.so
+%{_prefix}/lib/pkgconfig/speex.pc
+%endif
