@@ -12,8 +12,8 @@
 
 Summary:	An open-source, patent-free speech codec
 Name:		speex
-Version:	1.2.0
-Release:	5
+Version:	1.2.1
+Release:	1
 License:	BSD
 Group:		Sound
 URL:		http://www.speex.org/
@@ -114,8 +114,8 @@ rm -f %{buildroot}%{_datadir}/doc/*/manual.pdf
 
 %files
 %doc COPYING AUTHORS ChangeLog NEWS README
-%{_mandir}/man1/speexenc.1*
-%{_mandir}/man1/speexdec.1*
+%doc %{_mandir}/man1/speexenc.1*
+%doc %{_mandir}/man1/speexdec.1*
 %attr(755,root,root) %{_bindir}/speex*
 
 %files -n %{libname}
