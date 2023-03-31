@@ -13,7 +13,7 @@
 Summary:	An open-source, patent-free speech codec
 Name:		speex
 Version:	1.2.1
-Release:	1
+Release:	2
 License:	BSD
 Group:		Sound
 URL:		http://www.speex.org/
