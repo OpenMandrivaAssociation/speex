@@ -21,6 +21,11 @@ Source0:	http://downloads.us.xiph.org/releases/speex/%{name}-%{version}.tar.gz
 Patch1:		speex-1.1.6-fix-pkgconfig-path.patch
 Patch2:		speex-1.2rc1-CVE-2008-1686.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(ogg)
 BuildRequires:	pkgconfig(vorbis)
 %if %{with compat32}
